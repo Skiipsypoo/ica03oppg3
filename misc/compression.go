@@ -31,6 +31,7 @@ func readFile(file string) string {
 		fmt.Print(err)
 	}
 	str := string(b)
+	// Sjekker om fileValue er under 125, dette er for at det ikke skal bli for mange tegn, hvis den er over skriver den ut lengden på stringen i stede for stringen
 	if fileValue < 125 {
 		fmt.Println("Hex string:", str)
 	} else {
@@ -40,6 +41,7 @@ func readFile(file string) string {
 }
 
 // Returnere en ascii/utf8 representasjon
+// Skriver ut all informasjon om ASCII teksten
 func returnHexASCII(hex1 string) string {
 	fileRead := readFile(hex1)
 
@@ -66,6 +68,7 @@ func returnBase64(s string) string {
 	// Lengden av base64 strengen
 	r := base64.StdEncoding.EncodedLen(len(e))
 
+	//Printer kun ut Base64 stringen hvis den er på under 100 tegn, hvis ikke informerer den kun om lengden på Base64 stringen
 	if r < 100 {
 		fmt.Println("Fra ASCII til base64:", e)
 	} else {
