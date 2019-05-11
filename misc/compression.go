@@ -6,6 +6,7 @@ import (
 	"encoding/hex"
 	"fmt"
 	"io/ioutil"
+	"log"
 	"os"
 	"unsafe"
 )
@@ -13,6 +14,7 @@ import (
 //Kode for funksjoner og for programmet.
 //for å kjøre programmet må du skrive "go run compression.go -filename"
 //filen må inneholde hex verdi uten noen form for mellomrom eller andre symboler som kan gi den en utf-8 invalid byte hvis ikke vil programmet panic og close.
+// f.eks "go run compression.go hex"
 
 func main() {
 	args := os.Args
@@ -51,9 +53,13 @@ func returnHexASCII(hex1 string) string {
 	}
 
 	str := fmt.Sprintf("%s", ascii)
+	fileStat, err := os.Stat(hex1)
 
+	if err != nil {
+		log.Fatal(err)
+	}
 	fmt.Println("Fra hex til ASCII:", str)
-	fmt.Printf("Størrelse i byte: %T, %d \n", str, unsafe.Sizeof(str))
+	fmt.Println("Størrelse i bytes", fileStat.Size())
 	fmt.Println("Lengde: ", len(str))
 	fmt.Println("")
 
