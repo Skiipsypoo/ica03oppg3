@@ -12,7 +12,7 @@ import (
 	"unsafe"
 )
 
-const hexNummer = "546865736520776F7264"
+const hexNummer = "45726c656e642054686520506c61796572"
 
 func main() {
 
