@@ -12,7 +12,7 @@ import (
 	"unsafe"
 )
 
-const hexNummer = "45726c656e642054686520506c61796572"
+const hexNummer = "546865736520776f7264"
 
 func main() {
 
@@ -22,9 +22,7 @@ func main() {
 
 	compressBase64(l)
 
-	returnHex()
-
-	returnHexFromBase64()
+	returnHexFromBase64(l)
 
 }
 func pipe() {
@@ -81,6 +79,15 @@ func pipe() {
 	fmt.Printf("%s\n", text)
 }
 
+//Fra ASCII til hex, slikk at man kan bekreft om koden stemmer
+func returnASCIIHex(ascii1 string) string {
+	hexVerdi := []byte(ascii1)
+	encodedStr := hex.EncodeToString(hexVerdi)
+	fmt.Println("fra ASCII til hex:", encodedStr)
+	return encodedStr
+
+}
+
 // Returnere en ascii/utf8 representasjon
 func returnHexASCII(hex1 string) string {
 
@@ -115,27 +122,21 @@ func returnBase64(s string) string {
 	return e
 }
 
-// Implementert etter å ha sett oversettelse fra de heksadesimalerepresentasjonen
-func returnHex() {
-	src := []byte("These word")
-	encodedStr := hex.EncodeToString(src)
+//Dekoder Base64 til ASCII før den kjører returnASCIIHex slik at det går fra
+// B64 -> ASCII -> Hex
+func returnHexFromBase64(b63 string) string {
+	base64Dec, _ := base64.StdEncoding.DecodeString(b63)
+	fmt.Println(string(base64Dec))
+	fmt.Println()
 
-	fmt.Printf("%s\n", encodedStr)
-	fmt.Println("")
+	strs := fmt.Sprintf("%s", base64Dec)
+	fmt.Println("fra Base64 linjen :", b63, " til ASCII:", strs)
+	returnASCIIHex(strs)
+
+	return strs
 }
 
-//Koder fra Base64 til ASCII til heks.
-func returnHexFromBase64() {
-	str := "VGhlc2Ugd29yZA=="
-	data, err := base64.StdEncoding.DecodeString(str)
-	if err != nil {
-		fmt.Println("error:", err)
-
-		return
-	}
-	fmt.Printf("%q\n", data)
-}
-
+//Compression fra B64 til gzip
 func compressBase64(b64String string) {
 
 	newFile, err := os.Create("compression.gz")
